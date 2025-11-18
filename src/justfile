@@ -1,0 +1,15 @@
+build:
+    pdflatex main.tex
+    pdflatex main.tex
+
+watch:
+    while true; do \
+        inotifywait -qe modify *.tex content/*.tex 2>/dev/null; \
+        just build; \
+    done
+
+clean:
+    rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz
+
+cleanall: clean
+    rm -f *.pdf
