@@ -16,26 +16,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest-small
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache LaTeX packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            /usr/share/texlive
-            /usr/share/texmf
-            /var/lib/texmf
-          key: ${{ runner.os }}-texlive-${{ hashFiles('.github/workflows/build-latex.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-texlive-
-
-      - name: Install LaTeX dependencies
+      - name: Install additional packages if needed
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-french
+          tlmgr update --self
+          tlmgr install babel-french
 
       - name: Build PDF
         run: |
