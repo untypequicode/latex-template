@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\input{preamble}
+
+% les métadonnées sont désormais fournies de façon centralisée par env.sty (utilisez env.example.sty comme modèle)
+% \input{metadata} % supprimé au profit de src/env.sty / src/local_env.tex
+
+\textheight 9.6in
+\textwidth 7.1in
+\oddsidemargin -.25in
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\text{\titre}\\\text{\cours}}
+\fancyhead[R]{\text{\auteur}\\ \text{\remise}}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{32pt}
+\setlength{\headsep}{15pt}
+\addtolength{\topmargin}{-48pt}
+\setstretch{1.15}
+
+\begin{document}
+\include{titlepage}
+
+\newpage
+\tableofcontents
+\thispagestyle{plain}
+\newpage
+\large
+
+\input{content/01}
+
+
+\newpage
+\input{content/02}
+
+
+
+\end{document}

@@ -1,0 +1,34 @@
+% Packages essentiels
+\usepackage{amsmath}
+\usepackage{amsfonts, amssymb}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{titlesec}
+
+% Masquer les numéros de sections dans le document (mais les garder dans la table des matières)
+\titleformat{\section}[hang]{\normalfont\Large\bfseries}{}{0pt}{}
+\titleformat{\subsection}[hang]{\normalfont\large\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}[hang]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+
+% Charger la configuration du projet (env.sty)
+\IfFileExists{env.sty}{%
+  \usepackage{env}%
+}{}
+
+% Appliquer les chemins de recherche pour les images
+\makeatletter
+\@ifundefined{envGraphicPaths}{%
+  \graphicspath{{img/}}%
+}{%
+  \graphicspath\envGraphicPaths%
+}
+\makeatother

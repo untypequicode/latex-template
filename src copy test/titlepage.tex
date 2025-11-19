@@ -1,0 +1,44 @@
+\thispagestyle{empty}
+\begin{titlepage}
+	\begin{center}
+		\IfFileExists{\envLogoFile}{%
+			\includegraphics[scale=\envLogoScale]{\envLogoFile}%
+		}{%
+			\fbox{%
+				\begin{minipage}[c][3cm][c]{0.65\textwidth}%
+					\centering
+					\textbf{Logo manquant}\\[4pt]%
+					\small\texttt{\envLogoFile}%
+				\end{minipage}%
+			}%
+		}
+		\\[0.75cm]
+		\textsc{\normalsize \envFaculty}\\[1.2cm]
+
+		\rule{\linewidth}{0.5mm}\\[0.4cm]
+		{\huge\bfseries \titre}\\[0.4cm]
+		\rule{\linewidth}{0.5mm}\\[1.75cm]
+
+		\cours \\[1cm]
+		Présenté à \\
+		{\bfseries \professeur}\\[1cm]
+
+		par \\[0.5cm]
+		{\large \equipe}\\[0.8cm]
+
+		\begin{table}[H]
+			\centering
+			\begin{tabular}{|c|c|}
+				\hline
+				\textbf{Matricule} & \textbf{Nom} \\
+				\hline
+				\envTeamEntries
+				\hline
+			\end{tabular}
+			\caption{Matricules et noms des membres de l'équipe}
+		\end{table}
+
+		\vfill
+		{\large \remise}
+	\end{center}
+\end{titlepage}
