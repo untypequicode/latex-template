@@ -21,6 +21,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache LaTeX packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            /usr/share/texlive
+            /usr/share/texmf
+            /var/lib/texmf
+          key: ${{ runner.os }}-texlive-${{ hashFiles('.github/workflows/build-latex.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-texlive-
+
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
