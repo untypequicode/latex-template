@@ -1,4 +1,4 @@
-name: Construction des projets LaTeX (dynamique, par-projet latex.build)
+name: Construction des projets LaTeX (optimisé)
 
 on:
   push:
@@ -28,7 +28,6 @@ jobs:
         shell: bash
         run: |
           echo "Recherche de fichiers latex.build sous src/ ..."
-          # Rechercher les fichiers nommés latex.build sous src/ (un par projet LaTeX)
           mapfile -t files < <(find src -type f -name 'latex.build' -print)
           if [ ${#files[@]} -eq 0 ]; then
             echo "Aucun fichier latex.build trouvé."
@@ -42,18 +41,14 @@ jobs:
           for f in "${files[@]}"; do
             dir=$(dirname "$f")
 
-            # charger la configuration pour obtenir les variables (fichier au format shell simple)
-            # variables attendues (optionnel) : justfile, output, just_target
             unset justfile output just_target
             # shellcheck disable=SC1090
             . "$f"
 
-            # valeurs par défaut
             jf="${justfile:-justfile}"
             out="${output:-main.pdf}"
             jt="${just_target:-}"
 
-            # échapper les valeurs pour JSON (échapper les guillemets doubles et les antislashs)
             esc() {
               printf '%s' "$1" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()).strip("\""))'
             }
@@ -78,9 +73,6 @@ jobs:
     name: Build LaTeX projects
     needs: prepare
     runs-on: ubuntu-latest
-    container:
-      image: texlive/texlive:latest
-      options: --user root
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
@@ -88,7 +80,26 @@ jobs:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Show project info
+      - name: Installer TinyTeX (cache inclus)
+        uses: r-lib/actions/setup-tinytex@v2
+        env:
+          TINYTEX_INSTALLER: TinyTeX
+
+      - name: Installer just (si nécessaire)
+        run: |
+          if [ -f "${{ matrix.project }}/${{ matrix.justfile }}" ]; then
+            curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          fi
+
+      - name: Cache des packages LaTeX
+        uses: actions/cache@v4
+        with:
+          path: ~/texmf
+          key: latex-packages-${{ runner.os }}-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+            latex-packages-${{ runner.os }}-
+
+      - name: Afficher les infos du projet
         run: |
           echo "Répertoire du projet : ${{ matrix.project }}"
           echo "Justfile : ${{ matrix.justfile }}"
@@ -110,7 +121,7 @@ jobs:
           echo "Utilisation du justfile : $jf"
           echo "Sortie attendue : $out"
 
-          if command -v just >/dev/null 2>&1; then
+          if command -v just >/dev/null 2>&1 && [ -f "$jf" ]; then
             if [ -n "$jt" ]; then
               echo "Exécution : just -f \"$jf\" \"$jt\""
               just -f "$jf" "$jt"
@@ -119,9 +130,8 @@ jobs:
               just -f "$jf"
             fi
           else
-            echo "just introuvable. Repli sur une construction basée sur pdflatex."
+            echo "just introuvable ou justfile absent. Repli sur pdflatex."
 
-            # Tenter de construire à partir d'un .tex dont le nom de base correspond au PDF de sortie
             base="${out%.*}.tex"
             if [ -f "$base" ]; then
               pdflatex -interaction=nonstopmode -halt-on-error "$base"
@@ -130,8 +140,7 @@ jobs:
               pdflatex -interaction=nonstopmode -halt-on-error main.tex
               pdflatex -interaction=nonstopmode -halt-on-error main.tex
             else
-              echo "Pas de just et aucun point d'entrée .tex évident trouvé (essayé $base et main.tex)."
-              # Échouer le job pour ce projet
+              echo "Aucun point d'entrée .tex trouvé (essayé $base et main.tex)."
               exit 1
             fi
           fi
