@@ -1,0 +1,18 @@
+# Exemple de fichier latex.build pour un projet LaTeX sous src/<mon-projet>
+# Format : shell-sourcable. Le workflow va 'source' ce fichier pour récupérer les variables.
+#
+# Variables supportées :
+# - justfile    : nom (ou chemin relatif) du justfile à utiliser (défaut : "justfile")
+# - output      : nom du PDF de sortie attendu (défaut : "main.pdf")
+# - just_target : (optionnel) cible à passer à `just`, ex: "build" ou "pdf"
+#
+# Modifie les valeurs ci-dessous pour ton projet.
+
+justfile=justfile         # fichier just par défaut dans le dossier du projet
+output=main.pdf           # nom du PDF produit par la construction
+#just_target=build       # décommente et change si tu veux appeler une cible précise de just
+
+# Exemples alternatifs (laisser en commentaire si non utilisés) :
+# justfile=just.custom
+# output=report.pdf
+# just_target=pdf

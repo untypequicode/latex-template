@@ -1,48 +1,162 @@
-name: Build LaTeX Document
+name: Build LaTeX projects (dynamic, per-project latex.build)
 
 on:
   push:
     branches: [main, master]
     paths:
       - "src/**"
-      - ".github/workflows/build-latex.yml"
+      - ".github/workflows/build-latex-dynamic-config.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "src/**"
-      - ".github/workflows/build-latex.yml"
+      - ".github/workflows/build-latex-dynamic-config.yml"
   workflow_dispatch:
 
 jobs:
-  build:
+  prepare:
+    name: Prepare matrix
     runs-on: ubuntu-latest
-    container:
-      image: texlive/texlive:latest-small
-
+    outputs:
+      matrix: ${{ steps.find.outputs.matrix }}
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install additional packages if needed
+      - name: Find latex.build files
+        id: find
+        shell: bash
         run: |
-          tlmgr update --self
-          tlmgr install babel-french
+          echo "Searching for latex.build files under src/ ..."
+          # Find files named latex.build under src/ (one per LaTeX project)
+          mapfile -t files < <(find src -type f -name 'latex.build' -print)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No latex.build files found."
+            echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
+            exit 0
+          fi
 
-      - name: Build PDF
+          includes=""
+          first=true
+
+          for f in "${files[@]}"; do
+            dir=$(dirname "$f")
+
+            # source the config to obtain variables (simple shell-style file)
+            # expected variables (optional): justfile, output, just_target
+            unset justfile output just_target
+            # shellcheck disable=SC1090
+            . "$f"
+
+            # defaults
+            jf="${justfile:-justfile}"
+            out="${output:-main.pdf}"
+            jt="${just_target:-}"
+
+            # escape values for JSON (escape double quotes and backslashes)
+            esc() {
+              printf '%s' "$1" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()).strip("\""))'
+            }
+
+            jf_esc=$(esc "$jf")
+            out_esc=$(esc "$out")
+            jt_esc=$(esc "$jt")
+            dir_esc=$(esc "$dir")
+
+            if [ "$first" = true ]; then
+              includes="{\"project\":\"$dir_esc\",\"justfile\":\"$jf_esc\",\"output\":\"$out_esc\",\"just_target\":\"$jt_esc\"}"
+              first=false
+            else
+              includes="$includes,{\"project\":\"$dir_esc\",\"justfile\":\"$jf_esc\",\"output\":\"$out_esc\",\"just_target\":\"$jt_esc\"}"
+            fi
+          done
+
+          matrix="{\"include\":[$includes]}"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build LaTeX projects
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live (minimal) and utilities
         run: |
-          cd src
-          pdflatex main.tex
-          pdflatex main.tex
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-lang-french \
+            lmodern \
+            python3
+      - name: Show project info
+        run: |
+          echo "Project directory: ${{ matrix.project }}"
+          echo "Justfile: ${{ matrix.justfile }}"
+          echo "Output PDF: ${{ matrix.output }}"
+          if [ -n "${{ matrix.just_target }}" ]; then
+            echo "Just target: ${{ matrix.just_target }}"
+          fi
 
-      - name: Upload PDF as artifact
+      - name: Build with just (or fallback)
+        working-directory: ${{ matrix.project }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="${{ matrix.output }}"
+          jf="${{ matrix.justfile }}"
+          jt="${{ matrix.just_target }}"
+
+          echo "Working directory: $(pwd)"
+          echo "Using justfile: $jf"
+          echo "Expecting output: $out"
+
+          if command -v just >/dev/null 2>&1; then
+            if [ -n "$jt" ]; then
+              echo "Running: just -f \"$jf\" \"$jt\""
+              just -f "$jf" "$jt"
+            else
+              echo "Running: just -f \"$jf\""
+              just -f "$jf"
+            fi
+          else
+            echo "just not found. Falling back to pdflatex-based builds."
+
+            # Attempt to build from a .tex whose basename matches the output PDF
+            base="${out%.*}.tex"
+            if [ -f "$base" ]; then
+              pdflatex -interaction=nonstopmode -halt-on-error "$base"
+              pdflatex -interaction=nonstopmode -halt-on-error "$base"
+            elif [ -f main.tex ]; then
+              pdflatex -interaction=nonstopmode -halt-on-error main.tex
+              pdflatex -interaction=nonstopmode -halt-on-error main.tex
+            else
+              echo "No just and no obvious .tex entrypoint found (tried $base and main.tex)."
+              # Fail the job for this project
+              exit 1
+            fi
+          fi
+
+      - name: Verify output exists
+        working-directory: ${{ matrix.project }}
+        run: |
+          if [ -f "${{ matrix.output }}" ]; then
+            echo "Output exists: ${{ matrix.output }}"
+            ls -lh "${{ matrix.output }}"
+          else
+            echo "Expected output not found: ${{ matrix.output }}"
+            exit 1
+          fi
+
+      - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
-          name: latex-pdf
-          path: src/main.pdf
+          name: ${{ matrix.project }}-pdf
+          path: ${{ matrix.project }}/${{ matrix.output }}
           retention-days: 90
-
-      - name: Upload PDF to release (on tag)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v2
-        with:
-          files: src/main.pdf
