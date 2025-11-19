@@ -5,12 +5,12 @@ on:
     branches: [main, master]
     paths:
       - "src/**"
-      - ".github/workflows/build-latex-dynamic-config.yml"
+      - ".github/workflows/build-latex.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "src/**"
-      - ".github/workflows/build-latex-dynamic-config.yml"
+      - ".github/workflows/build-latex.yml"
   workflow_dispatch:
 
 jobs:
