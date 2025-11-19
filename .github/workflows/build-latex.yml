@@ -5,11 +5,13 @@ on:
     branches: [main, master]
     paths:
       - "src/**"
+      - "default.nix"
       - ".github/workflows/build-latex.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "src/**"
+      - "default.nix"
       - ".github/workflows/build-latex.yml"
   workflow_dispatch:
 
@@ -22,70 +24,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install just
+      - name: Build PDF with Nix
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          nix-shell --run "cd src && just build"
 
-      - name: Install LaTeX dependencies
+      - name: Commit PDF
+        if: github.event_name == 'push'
         run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-french
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
 
-      - name: Build PDFs with just
-        run: |
-          set -e
-          if [ -d src ]; then
-            (cd src && just build)
-          fi
+          git add -f src/main.pdf
 
-      - name: Commit PDFs to repository
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
-
-          # Forcer l'ajout des PDF même s'ils sont dans .gitignore
-          git add -f src/main.pdf || true
-
-          # Vérifier s'il y a des changements
           if git diff --staged --quiet; then
-            echo "Aucun changement dans les PDFs"
+            echo "Pas de changement dans le PDF"
           else
-            git commit -m "🤖 Update compiled PDFs [skip ci]"
-
-            # Retry logic pour push
-            max_attempts=3
-            attempt=0
-            until [ $attempt -ge $max_attempts ]
-            do
-              git pull --rebase origin ${{ github.ref_name }} && git push && break
-              attempt=$((attempt+1))
-              echo "Push attempt $attempt failed, retrying..."
-              sleep 2
-            done
-
-            if [ $attempt -ge $max_attempts ]; then
-              echo "Failed to push after $max_attempts attempts"
-              exit 1
-            fi
+            git commit -m "🤖 Update PDF [skip ci]"
+            git push
           fi
-
-      - name: Upload main PDF artifact
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: main-pdf
-          path: src/main.pdf
-          retention-days: 30
-
-      - name: Upload PDFs to release (on tag)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            src/main.pdf
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
