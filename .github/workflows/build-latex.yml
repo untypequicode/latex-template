@@ -37,7 +37,6 @@ jobs:
       - name: Build PDFs with just
         run: |
           set -e
-          # Build main (if present)
           if [ -d src ]; then
             (cd src && just build)
           fi
@@ -56,11 +55,27 @@ jobs:
             echo "Aucun changement dans les PDFs"
           else
             git commit -m "🤖 Update compiled PDFs [skip ci]"
-            git push
+
+            # Retry logic pour push
+            max_attempts=3
+            attempt=0
+            until [ $attempt -ge $max_attempts ]
+            do
+              git pull --rebase origin ${{ github.ref_name }} && git push && break
+              attempt=$((attempt+1))
+              echo "Push attempt $attempt failed, retrying..."
+              sleep 2
+            done
+
+            if [ $attempt -ge $max_attempts ]; then
+              echo "Failed to push after $max_attempts attempts"
+              exit 1
+            fi
           fi
 
       - name: Upload main PDF artifact
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: main-pdf
           path: src/main.pdf
