@@ -1,16 +1,10 @@
-name: Build LaTeX Document
+name: Build LaTeX and Commit PDF
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
     paths:
       - "src/**"
-      - ".github/workflows/build-latex.yml"
-  pull_request:
-    branches: [main, master]
-    paths:
-      - "src/**"
-      - ".github/workflows/build-latex.yml"
   workflow_dispatch:
 
 jobs:
@@ -27,50 +21,33 @@ jobs:
 
       - name: Install just
         run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          set -e
+          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
 
-      - name: Install LaTeX dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-french
-
-      - name: Build PDFs with just
+      - name: Run just build
         run: |
           set -e
-          # Build proposition (if present)
           if [ -d src ]; then
             (cd src && just build)
-          fi
-
-      - name: Commit PDFs to repository
-        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-        run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
-
-          # Forcer l'ajout des PDF même s'ils sont dans .gitignore
-          git add -f src/main.pdf || true
-
-          # Vérifier s'il y a des changements
-          if git diff --staged --quiet; then
-            echo "Aucun changement dans les PDFs"
           else
-            git commit -m "🤖 Update compiled PDFs [skip ci]"
-            git push
+            echo "No src directory; nothing to build"
+            exit 0
           fi
 
-      - name: Upload proposition PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: proposition-pdf
-          path: src/main.pdf
-          retention-days: 30
-
-      - name: Upload PDFs to release (on tag)
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            src/main.pdf
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit generated PDF
+        run: |
+          set -e
+          PDF=src/main.pdf
+          if [ -f "$PDF" ]; then
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git add -f "$PDF"
+            if git diff --staged --quiet; then
+              echo "No changes to commit for $PDF"
+            else
+              git commit -m "🤖 Update compiled PDF [skip ci]" || true
+              git push
+            fi
+          else
+            echo "PDF not found ($PDF), skipping commit"
+          fi
