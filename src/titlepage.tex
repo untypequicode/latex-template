@@ -1,9 +1,19 @@
 \thispagestyle{empty}
 \begin{titlepage}
 	\begin{center}
-		\includegraphics[scale=0.2]{logo.png}
+		\IfFileExists{\envLogoFile}{%
+			\includegraphics[scale=\envLogoScale]{\envLogoFile}%
+		}{%
+			\fbox{%
+				\begin{minipage}[c][3cm][c]{0.65\textwidth}%
+					\centering
+					\textbf{Logo manquant}\\[4pt]%
+					\small\texttt{\envLogoFile}%
+				\end{minipage}%
+			}%
+		}
 		\\[0.75cm]
-		\textsc{\normalsize nom de la faculté}\\[1.2cm]
+		\textsc{\normalsize \envFaculty}\\[1.2cm]
 
 		\rule{\linewidth}{0.5mm}\\[0.4cm]
 		{\huge\bfseries \titre}\\[0.4cm]
@@ -22,8 +32,7 @@
 				\hline
 				\textbf{Matricule} & \textbf{Nom} \\
 				\hline
-				matricule1         & nom1         \\
-				matricule2         & nom2         \\
+				\envTeamEntries
 				\hline
 			\end{tabular}
 			\caption{Matricules et noms des membres de l'équipe}

@@ -10,4 +10,22 @@
 \usepackage{graphicx}
 \usepackage{float}
 
-\graphicspath{{img/}}
+% Load the central env package if present. env.sty is expected to only
+% declare variables (no side effects). Do NOT fall back to \input{env.tex}
+% because that could execute arbitrary code; keep behaviour deterministic.
+\IfFileExists{env.sty}{%
+  \usepackage{env}%
+}{%
+  % env.sty not present; proceed without loading a project env package
+}
+
+% Apply graphic search paths:
+% - If env.sty provided \envGraphicPaths, use it.
+% - Otherwise fall back to the project's default image folder.
+\makeatletter
+\@ifundefined{envGraphicPaths}{%
+  \graphicspath{{img/}}%
+}{%
+  \graphicspath\envGraphicPaths%
+}
+\makeatother
