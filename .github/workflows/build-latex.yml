@@ -78,6 +78,8 @@ jobs:
     name: Build LaTeX projects
     needs: prepare
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/xu-cheng/texlive-full:latest
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
@@ -85,16 +87,15 @@ jobs:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Installer TeX Live (minimal) et utilitaires
+      - name: Installer just si nécessaire
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends \
-            texlive-latex-recommended \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            texlive-lang-french \
-            lmodern \
-            python3
+          if ! command -v just >/dev/null 2>&1; then
+            echo "Installation de just..."
+            curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+          else
+            echo "just est déjà installé"
+          fi
+
       - name: Show project info
         run: |
           echo "Répertoire du projet : ${{ matrix.project }}"
