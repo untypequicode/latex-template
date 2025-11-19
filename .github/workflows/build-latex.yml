@@ -5,13 +5,11 @@ on:
     branches: [main, master]
     paths:
       - "src/**"
-      - "default.nix"
       - ".github/workflows/build-latex.yml"
   pull_request:
     branches: [main, master]
     paths:
       - "src/**"
-      - "default.nix"
       - ".github/workflows/build-latex.yml"
   workflow_dispatch:
 
@@ -25,16 +23,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build PDF with Nix
+      - name: Install LaTeX dependencies
         run: |
-          nix-shell --run "cd src && just build"
-        env:
-          NIX_PATH: nixpkgs=channel:nixos-unstable
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-french
+
+      - name: Build PDF
+        run: |
+          cd src
+          pdflatex main.tex
+          pdflatex main.tex
 
       - name: Commit PDF
         if: github.event_name == 'push'
