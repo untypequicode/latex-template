@@ -91,17 +91,13 @@ jobs:
         env:
           TINYTEX_INSTALLER: TinyTeX
 
-      - name: Installer just (si nécessaire)
-        run: |
-          if [ -f "${{ matrix.project }}/${{ matrix.justfile }}" ]; then
-            curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-          fi
-
       - name: Cache des packages LaTeX
         uses: actions/cache@v4
         with:
-          path: ~/texmf
-          key: latex-packages-${{ runner.os }}-${{ hashFiles('**/*.tex') }}
+          path: |
+            ~/.TinyTeX
+            ~/texmf
+          key: latex-packages-${{ runner.os }}-${{ hashFiles('**/*.tex', '**/*.sty') }}
           restore-keys: |
             latex-packages-${{ runner.os }}-
 
