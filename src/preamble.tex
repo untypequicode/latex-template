@@ -9,6 +9,26 @@
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{titlesec}
+
+% Hide numbers for all sectioning levels in the document body while
+% keeping the internal counters so the sections / subsections still
+% appear with numbers in the Table of Contents and references.
+% We remove the printed label but preserve the counter for:
+%   \section, \subsection, \subsubsection, \paragraph, \subparagraph
+\titleformat{\section}[hang]{\normalfont\Large\bfseries}{}{0pt}{}
+\titleformat{\subsection}[hang]{\normalfont\large\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}[hang]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+
+% Optionally reduce the spacing before/after affected headings if desired.
+% Example (uncomment to apply):
+% \titlespacing*{\section}{0pt}{*0}{*0}
+% \titlespacing*{\subsection}{0pt}{*0}{*0}
+% \titlespacing*{\subsubsection}{0pt}{*0}{*0}
+% \titlespacing*{\paragraph}{0pt}{*0}{*0}
+% \titlespacing*{\subparagraph}{0pt}{*0}{*0}
 
 % Load the central env package if present. env.sty is expected to only
 % declare variables (no side effects). Do NOT fall back to \input{env.tex}
