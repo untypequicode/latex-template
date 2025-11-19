@@ -162,9 +162,17 @@ jobs:
             exit 1
           fi
 
+      - name: Nettoyer le nom du projet pour l'artifact
+        id: clean-name
+        run: |
+          # Remplacer les caractères invalides par des tirets
+          clean_name=$(echo "${{ matrix.project }}" | sed 's/[\/\.\:]/-/g' | sed 's/^-*//' | sed 's/-*$//')
+          echo "name=${clean_name}-pdf" >> $GITHUB_OUTPUT
+          echo "Nom nettoyé : ${clean_name}-pdf"
+
       - name: Téléverser l'artefact PDF
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.project }}-pdf
+          name: ${{ steps.clean-name.outputs.name }}
           path: ${{ matrix.project }}/${{ matrix.output }}
           retention-days: 90
