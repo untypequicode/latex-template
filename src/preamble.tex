@@ -1,3 +1,4 @@
+% Packages essentiels
 \usepackage{amsmath}
 \usepackage{amsfonts, amssymb}
 \usepackage[french]{babel}
@@ -11,37 +12,19 @@
 \usepackage{float}
 \usepackage{titlesec}
 
-% Masque l'affichage des numéros pour tous les niveaux de titres dans le corps du document tout en
-% conservant les compteurs internes afin que les sections / sous-sections continuent
-% d'apparaître avec des numéros dans la table des matières et dans les références.
-% On supprime l'étiquette imprimée mais on préserve le compteur pour :
-%   \section, \subsection, \subsubsection, \paragraph, \subparagraph
+% Masquer les numéros de sections dans le document (mais les garder dans la table des matières)
 \titleformat{\section}[hang]{\normalfont\Large\bfseries}{}{0pt}{}
 \titleformat{\subsection}[hang]{\normalfont\large\bfseries}{}{0pt}{}
 \titleformat{\subsubsection}[hang]{\normalfont\normalsize\bfseries}{}{0pt}{}
 \titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
 \titleformat{\subparagraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
 
-% Éventuellement réduire l'espacement avant/après les titres concernés si désiré.
-% Exemple (décommenter pour appliquer) :
-% \titlespacing*{\section}{0pt}{*0}{*0}
-% \titlespacing*{\subsection}{0pt}{*0}{*0}
-% \titlespacing*{\subsubsection}{0pt}{*0}{*0}
-% \titlespacing*{\paragraph}{0pt}{*0}{*0}
-% \titlespacing*{\subparagraph}{0pt}{*0}{*0}
-
-% Charger le paquet central env si présent. env.sty est supposé seulement
-% déclarer des variables (sans effets de bord). NE PAS revenir à \input{env.tex}
-% car cela pourrait exécuter du code arbitraire ; garder un comportement déterministe.
+% Charger la configuration du projet (env.sty)
 \IfFileExists{env.sty}{%
   \usepackage{env}%
-}{%
-  % env.sty absent ; continuer sans charger un paquet env du projet
-}
+}{}
 
-% Appliquer les chemins de recherche pour les images :
-% - Si env.sty fournit \envGraphicPaths, l'utiliser.
-% - Sinon, revenir au dossier d'images par défaut du projet.
+% Appliquer les chemins de recherche pour les images
 \makeatletter
 \@ifundefined{envGraphicPaths}{%
   \graphicspath{{img/}}%

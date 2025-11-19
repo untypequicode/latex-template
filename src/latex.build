@@ -1,19 +1,11 @@
-# Exemple de fichier `latex.build` pour un projet LaTeX dans src/<mon-projet>
-# Format : fichier exécutable par sourcing (shell). Le workflow va 'source' ce fichier
-# pour lire les variables de configuration du projet.
-#
-# Variables prises en charge :
-# - justfile    : nom (ou chemin relatif) du justfile à utiliser (défaut : "justfile")
-# - output      : nom du PDF de sortie attendu (défaut : "main.pdf")
-# - just_target : (optionnel) cible passée à `just`, ex. : "build" ou "pdf"
-#
-# Modifiez les valeurs ci-dessous pour votre projet.
+# Configuration pour le workflow CI/CD GitHub Actions
+# Ce fichier indique au workflow comment compiler votre projet LaTeX
 
-justfile=justfile         # justfile par défaut dans le dossier du projet
-output=main.pdf           # nom du PDF généré par la compilation
-#just_target=build       # décommentez et modifiez si vous souhaitez appeler une cible spécifique de just
+justfile=justfile         # Justfile à utiliser
+output=main.pdf           # Nom du PDF généré
+#just_target=build        # (Optionnel) Cible just spécifique à exécuter
 
-# Exemples alternatifs (laisser en commentaire si non utilisés) :
-# justfile=just.custom
-# output=report.pdf
+# Exemples :
+# output=rapport-final.pdf
 # just_target=pdf
+# justfile=build/custom.just
