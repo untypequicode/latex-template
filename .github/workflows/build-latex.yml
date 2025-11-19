@@ -4,12 +4,18 @@ on:
   push:
     branches: [main, master]
     paths:
-      - "src/**"
+      - "**/*.tex"
+      - "**/*.sty"
+      - "**/latex.build"
+      - "**/justfile*"
       - ".github/workflows/build-latex.yml"
   pull_request:
     branches: [main, master]
     paths:
-      - "src/**"
+      - "**/*.tex"
+      - "**/*.sty"
+      - "**/latex.build"
+      - "**/justfile*"
       - ".github/workflows/build-latex.yml"
   workflow_dispatch:
 
@@ -27,8 +33,8 @@ jobs:
         id: find
         shell: bash
         run: |
-          echo "Recherche de fichiers latex.build sous src/ ..."
-          mapfile -t files < <(find src -type f -name 'latex.build' -print)
+          echo "Recherche de fichiers latex.build dans tout le dépôt..."
+          mapfile -t files < <(find . -type f -name 'latex.build' -print)
           if [ ${#files[@]} -eq 0 ]; then
             echo "Aucun fichier latex.build trouvé."
             echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
