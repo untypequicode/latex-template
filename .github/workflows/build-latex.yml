@@ -79,22 +79,14 @@ jobs:
     needs: prepare
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/xu-cheng/texlive-full:latest
+      image: texlive/texlive:latest
+      options: --user root
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
-
-      - name: Installer just si nécessaire
-        run: |
-          if ! command -v just >/dev/null 2>&1; then
-            echo "Installation de just..."
-            curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-          else
-            echo "just est déjà installé"
-          fi
 
       - name: Show project info
         run: |
