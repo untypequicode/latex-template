@@ -1,4 +1,4 @@
-name: Build LaTeX projects (dynamic, per-project latex.build)
+name: Construction des projets LaTeX (dynamique, par-projet latex.build)
 
 on:
   push:
@@ -15,23 +15,23 @@ on:
 
 jobs:
   prepare:
-    name: Prepare matrix
+    name: Préparer la matrice
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.find.outputs.matrix }}
     steps:
-      - name: Checkout
+      - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Find latex.build files
+      - name: Rechercher les fichiers latex.build
         id: find
         shell: bash
         run: |
-          echo "Searching for latex.build files under src/ ..."
-          # Find files named latex.build under src/ (one per LaTeX project)
+          echo "Recherche de fichiers latex.build sous src/ ..."
+          # Rechercher les fichiers nommés latex.build sous src/ (un par projet LaTeX)
           mapfile -t files < <(find src -type f -name 'latex.build' -print)
           if [ ${#files[@]} -eq 0 ]; then
-            echo "No latex.build files found."
+            echo "Aucun fichier latex.build trouvé."
             echo "matrix={\"include\":[]}" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -42,18 +42,18 @@ jobs:
           for f in "${files[@]}"; do
             dir=$(dirname "$f")
 
-            # source the config to obtain variables (simple shell-style file)
-            # expected variables (optional): justfile, output, just_target
+            # charger la configuration pour obtenir les variables (fichier au format shell simple)
+            # variables attendues (optionnel) : justfile, output, just_target
             unset justfile output just_target
             # shellcheck disable=SC1090
             . "$f"
 
-            # defaults
+            # valeurs par défaut
             jf="${justfile:-justfile}"
             out="${output:-main.pdf}"
             jt="${just_target:-}"
 
-            # escape values for JSON (escape double quotes and backslashes)
+            # échapper les valeurs pour JSON (échapper les guillemets doubles et les antislashs)
             esc() {
               printf '%s' "$1" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read()).strip("\""))'
             }
@@ -82,10 +82,10 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
-      - name: Checkout
+      - name: Récupérer le dépôt
         uses: actions/checkout@v4
 
-      - name: Install TeX Live (minimal) and utilities
+      - name: Installer TeX Live (minimal) et utilitaires
         run: |
           sudo apt-get update -y
           sudo apt-get install -y --no-install-recommends \
@@ -97,14 +97,14 @@ jobs:
             python3
       - name: Show project info
         run: |
-          echo "Project directory: ${{ matrix.project }}"
-          echo "Justfile: ${{ matrix.justfile }}"
-          echo "Output PDF: ${{ matrix.output }}"
+          echo "Répertoire du projet : ${{ matrix.project }}"
+          echo "Justfile : ${{ matrix.justfile }}"
+          echo "PDF de sortie attendu : ${{ matrix.output }}"
           if [ -n "${{ matrix.just_target }}" ]; then
-            echo "Just target: ${{ matrix.just_target }}"
+            echo "Cible just : ${{ matrix.just_target }}"
           fi
 
-      - name: Build with just (or fallback)
+      - name: Construire avec just (ou repli)
         working-directory: ${{ matrix.project }}
         shell: bash
         run: |
@@ -113,22 +113,22 @@ jobs:
           jf="${{ matrix.justfile }}"
           jt="${{ matrix.just_target }}"
 
-          echo "Working directory: $(pwd)"
-          echo "Using justfile: $jf"
-          echo "Expecting output: $out"
+          echo "Répertoire de travail : $(pwd)"
+          echo "Utilisation du justfile : $jf"
+          echo "Sortie attendue : $out"
 
           if command -v just >/dev/null 2>&1; then
             if [ -n "$jt" ]; then
-              echo "Running: just -f \"$jf\" \"$jt\""
+              echo "Exécution : just -f \"$jf\" \"$jt\""
               just -f "$jf" "$jt"
             else
-              echo "Running: just -f \"$jf\""
+              echo "Exécution : just -f \"$jf\""
               just -f "$jf"
             fi
           else
-            echo "just not found. Falling back to pdflatex-based builds."
+            echo "just introuvable. Repli sur une construction basée sur pdflatex."
 
-            # Attempt to build from a .tex whose basename matches the output PDF
+            # Tenter de construire à partir d'un .tex dont le nom de base correspond au PDF de sortie
             base="${out%.*}.tex"
             if [ -f "$base" ]; then
               pdflatex -interaction=nonstopmode -halt-on-error "$base"
@@ -137,24 +137,24 @@ jobs:
               pdflatex -interaction=nonstopmode -halt-on-error main.tex
               pdflatex -interaction=nonstopmode -halt-on-error main.tex
             else
-              echo "No just and no obvious .tex entrypoint found (tried $base and main.tex)."
-              # Fail the job for this project
+              echo "Pas de just et aucun point d'entrée .tex évident trouvé (essayé $base et main.tex)."
+              # Échouer le job pour ce projet
               exit 1
             fi
           fi
 
-      - name: Verify output exists
+      - name: Vérifier l'existence de la sortie
         working-directory: ${{ matrix.project }}
         run: |
           if [ -f "${{ matrix.output }}" ]; then
-            echo "Output exists: ${{ matrix.output }}"
+            echo "Sortie trouvée : ${{ matrix.output }}"
             ls -lh "${{ matrix.output }}"
           else
-            echo "Expected output not found: ${{ matrix.output }}"
+            echo "Sortie attendue introuvable : ${{ matrix.output }}"
             exit 1
           fi
 
-      - name: Upload PDF artifact
+      - name: Téléverser l'artefact PDF
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.project }}-pdf

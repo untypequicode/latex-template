@@ -1,3 +1,9 @@
+# justfile - tâches pour construire le projet LaTeX
+# Cible 'build' : compile le fichier main.tex deux fois (utile pour résoudre les références croisées)
+# Cible 'watch' : surveille les fichiers .tex et relance 'just build' à chaque modification
+# Cible 'clean' : supprime les fichiers auxiliaires générés par LaTeX
+# Cible 'cleanall' : effectue 'clean' puis supprime le(s) PDF généré(s)
+
 build:
     pdflatex main.tex
     pdflatex main.tex
