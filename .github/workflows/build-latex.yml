@@ -33,6 +33,8 @@ jobs:
       - name: Build PDF with Nix
         run: |
           nix-shell --run "cd src && just build"
+        env:
+          NIX_PATH: nixpkgs=channel:nixos-unstable
 
       - name: Commit PDF
         if: github.event_name == 'push'
