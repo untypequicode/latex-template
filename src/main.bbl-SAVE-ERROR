@@ -1,0 +1,221 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{example_book}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=92b422fff819487f8389dff371b6a8fb}{%
+           family={Auteur},
+           familyi={A\bibinitperiod},
+           given={Nom},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Ville}%
+      }
+      \list{publisher}{1}{%
+        {Maison d'Édition}%
+      }
+      \strng{namehash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{fullhash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{fullhashraw}{92b422fff819487f8389dff371b6a8fb}
+      \strng{bibnamehash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{authorbibnamehash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{authornamehash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{authorfullhash}{92b422fff819487f8389dff371b6a8fb}
+      \strng{authorfullhashraw}{92b422fff819487f8389dff371b6a8fb}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Titre du Livre}
+      \field{year}{2023}
+    \endentry
+    \entry{example_conference}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=28944000783fed48be6c25b3a91f1fa8}{%
+           family={Chercheur},
+           familyi={C\bibinitperiod},
+           given={Nom},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Ville, Pays}%
+      }
+      \strng{namehash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{fullhash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{fullhashraw}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{bibnamehash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{authorbibnamehash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{authornamehash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{authorfullhash}{28944000783fed48be6c25b3a91f1fa8}
+      \strng{authorfullhashraw}{28944000783fed48be6c25b3a91f1fa8}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Nom de la Conférence}
+      \field{title}{Titre de la Présentation}
+      \field{year}{2024}
+      \field{pages}{1\bibrangedash 10}
+      \range{pages}{10}
+    \endentry
+    \entry{example_chapter}{incollection}{}{}
+      \name{author}{1}{}{%
+        {{hash=9eebc147919f11e460c20ad00de2f4d2}{%
+           family={Contributeur},
+           familyi={C\bibinitperiod},
+           given={Nom},
+           giveni={N\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=d25e9d3916e753ef94f7670c32df53aa}{%
+           family={Éditeur},
+           familyi={É\bibinitperiod},
+           given={Nom},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Maison d'Édition}%
+      }
+      \strng{namehash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{fullhash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{fullhashraw}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{bibnamehash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{authorbibnamehash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{authornamehash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{authorfullhash}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{authorfullhashraw}{9eebc147919f11e460c20ad00de2f4d2}
+      \strng{editorbibnamehash}{d25e9d3916e753ef94f7670c32df53aa}
+      \strng{editornamehash}{d25e9d3916e753ef94f7670c32df53aa}
+      \strng{editorfullhash}{d25e9d3916e753ef94f7670c32df53aa}
+      \strng{editorfullhashraw}{d25e9d3916e753ef94f7670c32df53aa}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Titre du Livre}
+      \field{title}{Titre du Chapitre}
+      \field{year}{2023}
+      \field{pages}{45\bibrangedash 67}
+      \range{pages}{23}
+    \endentry
+    \entry{example_thesis}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{hash=cf21166c59d5600cbfc6f249cf7524d8}{%
+           family={Doctorant},
+           familyi={D\bibinitperiod},
+           given={Nom},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Université}%
+      }
+      \list{location}{1}{%
+        {Ville, Pays}%
+      }
+      \strng{namehash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{fullhash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{fullhashraw}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{bibnamehash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{authorbibnamehash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{authornamehash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{authorfullhash}{cf21166c59d5600cbfc6f249cf7524d8}
+      \strng{authorfullhashraw}{cf21166c59d5600cbfc6f249cf7524d8}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Titre de la Thèse}
+      \field{type}{phdthesis}
+      \field{year}{2023}
+    \endentry
+    \entry{example_article}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=98a0c8e1ea5f25d578488e16c6b2d5b1}{%
+           family={Nom},
+           familyi={N\bibinitperiod},
+           given={Prénom},
+           giveni={P\bibinitperiod}}}%
+        {{hash=a62702b343ac842ce2614b48f1f84b63}{%
+           family={Autre},
+           familyi={A\bibinitperiod},
+           given={Auteur},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{fullhash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{fullhashraw}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{bibnamehash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{authorbibnamehash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{authornamehash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{authorfullhash}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \strng{authorfullhashraw}{08bfb0d5fa3d0451fe31d20a14db49e2}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nom du Journal}
+      \field{number}{3}
+      \field{title}{Titre de l'article}
+      \field{volume}{42}
+      \field{year}{2024}
+      \field{pages}{123\bibrangedash 145}
+      \range{pages}{23}
+      \verb{doi}
+      \verb 10.1234/example.doi
+      \endverb
+    \endentry
+    \entry{example_website}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=17b83ae34e7863096eadb985ed537870}{%
+           family={Organisation},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{17b83ae34e7863096eadb985ed537870}
+      \strng{fullhash}{17b83ae34e7863096eadb985ed537870}
+      \strng{fullhashraw}{17b83ae34e7863096eadb985ed537870}
+      \strng{bibnamehash}{17b83ae34e7863096eadb985ed537870}
+      \strng{authorbibnamehash}{17b83ae34e7863096eadb985ed537870}
+      \strng{authornamehash}{17b83ae34e7863096eadb985ed537870}
+      \strng{authorfullhash}{17b83ae34e7863096eadb985ed537870}
+      \strng{authorfullhashraw}{17b83ae34e7863096eadb985ed537870}
+      \field{sortinit}{O}
+      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Titre de la Page Web}
+      \field{urlday}{30}
+      \field{urlmonth}{11}
+      \field{urlyear}{2024}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://example.com
+      \endverb
+      \verb{url}
+      \verb https://example.com
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

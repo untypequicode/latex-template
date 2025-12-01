@@ -1,22 +1,70 @@
-\section{Utilisation avancée}
+\section{Listes et mise en forme du texte}
 
-\subsection{Gestion des références bibliographiques}
+Cette section présente les différents types de listes et options de mise en forme du texte.
 
-Le fichier \texttt{references.bib} contient toutes les références utilisées dans ce document. Vous pouvez y ajouter vos propres sources en suivant les exemples fournis.
+\subsection{Listes à puces}
 
-\subsection{Types de références supportés}
+Les listes à puces utilisent l'environnement \texttt{itemize} :
 
-Ce template supporte plusieurs types de références :
+\begin{itemize}
+	\item Premier élément de la liste
+	\item Deuxième élément
+	\item Troisième élément avec des sous-éléments :
+	      \begin{itemize}
+		      \item Sous-élément 1
+		      \item Sous-élément 2
+	      \end{itemize}
+	\item Dernier élément
+\end{itemize}
+
+\subsection{Listes numérotées}
+
+Les listes numérotées utilisent l'environnement \texttt{enumerate} :
+
+\begin{enumerate}
+	\item Première étape du processus
+	\item Deuxième étape avec détails :
+	      \begin{enumerate}
+		      \item Sous-étape A
+		      \item Sous-étape B
+		      \item Sous-étape C
+	      \end{enumerate}
+	\item Troisième étape
+	\item Quatrième et dernière étape
+\end{enumerate}
+
+\subsection{Listes de descriptions}
+
+Les listes de descriptions utilisent l'environnement \texttt{description} :
 
 \begin{description}
-	\item[Articles de journaux] comme \cite{example_article} pour les publications scientifiques
-	\item[Livres] tel que \cite{example_book} pour les ouvrages de référence
-	\item[Chapitres de livres] voir \cite{example_chapter} pour les contributions spécifiques
-	\item[Conférences] comme \cite{example_conference} pour les actes de conférence
-	\item[Thèses] telle que \cite{example_thesis} pour les travaux de recherche
-	\item[Sites web] comme \cite{example_website} pour les ressources en ligne
+	\item[LaTeX] Système de composition de documents de haute qualité
+	\item[BibTeX/Biber] Outils de gestion bibliographique
+	\item[Just] Gestionnaire de commandes moderne
+	\item[Nix] Gestionnaire de paquets reproductible
 \end{description}
 
-\subsection{Personnalisation}
+\subsection{Mise en forme du texte}
 
-Le style de citation (numérique, auteur-année, etc.) peut être modifié dans le fichier \texttt{preamble.tex} en changeant les options du package \texttt{biblatex}.
+Différentes options de formatage sont disponibles :
+
+\begin{itemize}
+	\item \textbf{Texte en gras} avec \texttt{\textbackslash textbf\{\}}
+	\item \textit{Texte en italique} avec \texttt{\textbackslash textit\{\}}
+	\item \texttt{Police à chasse fixe (code)} avec \texttt{\textbackslash texttt\{\}}
+	\item \underline{Texte souligné} avec \texttt{\textbackslash underline\{\}}
+	\item {\large Texte agrandi} avec \texttt{\{\textbackslash large ...\}}
+	\item {\small Texte réduit} avec \texttt{\{\textbackslash small ...\}}
+\end{itemize}
+
+\subsection{Blocs de code}
+
+Pour afficher du code source, utilisez l'environnement \texttt{verbatim} :
+
+\begin{verbatim}
+def hello_world():
+    print("Hello, World!")
+    return True
+\end{verbatim}
+
+Ou pour du code en ligne : \verb|x = y + z| avec \texttt{\textbackslash verb}.

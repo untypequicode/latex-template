@@ -1,6 +1,23 @@
 # Template LaTeX pour documents académiques
 
-Template LaTeX structuré pour la création de rapports, devoirs et documents académiques avec compilation automatisée.
+Template LaTeX structuré et auto-documenté pour la création de rapports, devoirs et documents académiques avec compilation automatisée.
+
+Le PDF généré sert lui-même de documentation complète avec des exemples concrets pour chaque fonctionnalité LaTeX.
+
+## 📚 Documentation intégrée
+
+Ce template est **auto-documenté** : compilez-le une fois pour générer un PDF contenant des exemples concrets de toutes les fonctionnalités LaTeX :
+
+- Tableaux simples et avancés
+- Insertion de figures et images
+- Listes à puces, numérotées et de descriptions
+- Mise en forme du texte et blocs de code
+- Équations mathématiques (en ligne, numérotées, matrices)
+- Références croisées entre sections, tableaux et équations
+- Liens hypertextes et notes de bas de page
+- Système de bibliographie complet avec citations
+
+**Consultez le PDF généré pour voir tous ces exemples en action !**
 
 ## 🚀 Démarrage rapide
 
@@ -59,11 +76,15 @@ pdflatex main.tex    # Finalise les références
 
 ### 3. Édition du contenu
 
-Ajoutez votre contenu dans `src/content/` :
+Le template inclut des sections de démonstration qui servent de documentation :
 
-- `01.tex` : Première section
-- `02.tex` : Deuxième section
-- Créez autant de fichiers `.tex` que nécessaire
+- `01.tex` : Tableaux et figures
+- `02.tex` : Listes et mise en forme du texte
+- `03.tex` : Équations mathématiques
+- `04.tex` : Références croisées et liens
+- `05.tex` : Gestion de la bibliographie
+
+**Pour votre propre document**, remplacez simplement le contenu de ces fichiers ou créez de nouveaux fichiers `.tex`.
 
 Incluez-les dans `src/main.tex` :
 
@@ -120,9 +141,12 @@ src/
 ├── titlepage.tex        # Page de titre
 ├── references.bib       # Fichier de bibliographie
 ├── justfile             # Commandes de build
-└── content/             # Contenu du document
-    ├── 01.tex
-    └── 02.tex
+└── content/             # Contenu du document (exemples auto-documentés)
+    ├── 01.tex           # Tableaux et figures
+    ├── 02.tex           # Listes et mise en forme
+    ├── 03.tex           # Équations mathématiques
+    ├── 04.tex           # Références croisées et liens
+    └── 05.tex           # Bibliographie
 ```
 
 ## 🔧 Commandes utiles

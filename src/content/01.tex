@@ -1,19 +1,79 @@
-\section{Introduction}
+\section{Tableaux et figures}
 
-Ce document est un exemple d'utilisation du template LaTeX avec système de bibliographie intégré.
+Cette section démontre comment créer et utiliser des tableaux et des figures dans votre document LaTeX.
 
-\subsection{Contexte}
+\subsection{Tableaux simples}
 
-Dans le cadre de travaux académiques, il est essentiel de citer correctement ses sources. Ce template utilise \texttt{biblatex} avec le backend \texttt{biber} pour gérer les références bibliographiques de manière professionnelle.
+Les tableaux sont créés avec l'environnement \texttt{table} et \texttt{tabular}. Voici un exemple :
 
-\subsection{Exemple de citations}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|c|r|}
+		\hline
+		\textbf{Colonne gauche} & \textbf{Colonne centre} & \textbf{Colonne droite} \\
+		\hline
+		Texte aligné à gauche   & Texte centré            & Texte aligné à droite   \\
+		Ligne 2                 & 42                      & 3.14                    \\
+		Ligne 3                 & 100                     & 2.71                    \\
+		\hline
+	\end{tabular}
+	\caption{Exemple de tableau simple avec différents alignements}
+	\label{tab:exemple_simple}
+\end{table}
 
-Plusieurs formats de citation sont disponibles :
+\subsection{Tableaux avancés}
 
+Pour des tableaux plus complexes, vous pouvez créer des structures plus élaborées :
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|c|c|c|}
+		\hline
+		\textbf{Fonctionnalité} & \textbf{Version 1.0} & \textbf{Version 2.0} & \textbf{Version 3.0} \\
+		\hline
+		Bibliographie           & Non                  & Oui                  & Oui                  \\
+		Images                  & Oui                  & Oui                  & Oui                  \\
+		Tableaux                & Basique              & Basique              & Avancé               \\
+		Équations               & Oui                  & Oui                  & Oui                  \\
+		\hline
+	\end{tabular}
+	\caption{Comparaison des versions du template}
+	\label{tab:comparaison}
+\end{table}
+
+\subsection{Insertion d'images}
+
+Les images sont insérées avec l'environnement \texttt{figure} et la commande \texttt{\textbackslash includegraphics}.
+
+\begin{figure}[H]
+	\centering
+	\IfFileExists{img/logo.png}{%
+		\includegraphics[width=0.3\textwidth]{img/logo.png}
+	}{%
+		\fbox{\begin{minipage}[c][5cm][c]{0.6\textwidth}
+				\centering
+				\textbf{Logo non trouvé}\\[1em]
+				\small Placez votre logo dans \texttt{src/img/logo.png}
+			\end{minipage}}
+	}
+	\caption{Exemple d'insertion d'image : logo du projet}
+	\label{fig:exemple}
+\end{figure}
+
+\textbf{Code utilisé :}
+\begin{verbatim}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{img/logo.png}
+  \caption{Exemple d'insertion d'image}
+  \label{fig:exemple}
+\end{figure}
+\end{verbatim}
+
+\textbf{Astuces :}
 \begin{itemize}
-	\item Citation simple : Selon \cite{example_article}, cette approche est efficace.
-	\item Citations multiples : Plusieurs études \cite{example_book,example_conference} ont démontré l'importance de cette méthode.
-	\item Citation avec numéro de page : Comme mentionné dans \cite[p.~42]{example_book}, les résultats sont concluants.
+	\item Utilisez l'option \texttt{[H]} pour forcer le positionnement exact
+	\item Contrôlez la taille avec \texttt{width=0.3\textbackslash textwidth} ou \texttt{scale=0.5}
+	\item Formats supportés : PNG, JPG, PDF
+	\item Placez vos images dans le dossier \texttt{src/img/}
 \end{itemize}
-
-Pour plus d'informations sur les méthodologies de recherche, consulter \cite{example_thesis} ou les ressources en ligne \cite{example_website}.

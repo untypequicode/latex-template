@@ -1,0 +1,65 @@
+\section{Équations mathématiques}
+
+Cette section démontre comment écrire des équations mathématiques en LaTeX.
+
+\subsection{Formules en ligne}
+
+Les formules mathématiques peuvent être insérées dans le texte : $E = mc^2$ ou $a^2 + b^2 = c^2$.
+
+Pour cela, utilisez les symboles \texttt{\$} : \verb|$E = mc^2$|
+
+\subsection{Équations numérotées}
+
+Les équations importantes peuvent être mises en évidence et numérotées :
+
+\begin{equation}
+	\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}
+	\label{eq:gaussienne}
+\end{equation}
+
+\begin{equation}
+	f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+	\label{eq:taylor}
+\end{equation}
+
+\subsection{Équations non numérotées}
+
+Pour des équations sans numérotation, utilisez l'environnement avec étoile :
+
+\begin{equation*}
+	\nabla \cdot \mathbf{E} = \frac{\rho}{\epsilon_0}
+\end{equation*}
+
+\subsection{Systèmes d'équations}
+
+L'environnement \texttt{align} permet d'aligner plusieurs équations :
+
+\begin{align}
+	x + y  & = 10 \label{eq:sys1} \\
+	2x - y & = 5 \label{eq:sys2}
+\end{align}
+
+\subsection{Matrices}
+
+Les matrices utilisent l'environnement \texttt{pmatrix}, \texttt{bmatrix}, ou \texttt{vmatrix} :
+
+\begin{equation}
+	A = \begin{pmatrix}
+		a_{11} & a_{12} & a_{13} \\
+		a_{21} & a_{22} & a_{23} \\
+		a_{31} & a_{32} & a_{33}
+	\end{pmatrix}
+\end{equation}
+
+\subsection{Symboles mathématiques courants}
+
+Voici quelques symboles fréquemment utilisés :
+
+\begin{itemize}
+	\item Lettres grecques : $\alpha, \beta, \gamma, \Delta, \Omega$
+	\item Opérateurs : $\sum, \prod, \int, \partial, \nabla$
+	\item Relations : $\leq, \geq, \neq, \approx, \equiv$
+	\item Ensembles : $\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}, \mathbb{C}$
+	\item Logique : $\forall, \exists, \in, \notin, \subset$
+	\item Flèches : $\rightarrow, \Rightarrow, \leftrightarrow, \Leftrightarrow$
+\end{itemize}

@@ -1,0 +1,57 @@
+\section{Références croisées et liens}
+
+Cette section montre comment créer des références internes et des liens hypertextes dans votre document.
+
+\subsection{Références à des sections}
+
+Vous pouvez référencer d'autres sections du document. Par exemple, voir la Section \ref{sec:labels} pour plus de détails sur les labels.
+
+Les tableaux et figures peuvent aussi être référencés : le Tableau \ref{tab:exemple_simple} de la première section montre un exemple simple.
+
+\subsection{Utilisation des labels}
+\label{sec:labels}
+
+Pour créer une référence, il faut :
+
+\begin{enumerate}
+	\item Placer un \texttt{\textbackslash label\{nom\_unique\}} après l'élément
+	\item Utiliser \texttt{\textbackslash ref\{nom\_unique\}} pour y faire référence
+\end{enumerate}
+
+\textbf{Exemple de code :}
+\begin{verbatim}
+\section{Ma section}
+\label{sec:ma_section}
+
+Voir la Section \ref{sec:ma_section}.
+\end{verbatim}
+
+\subsection{Références aux équations}
+
+Les équations peuvent être référencées de la même manière. Par exemple, l'équation de la gaussienne \eqref{eq:gaussienne} et la série de Taylor \eqref{eq:taylor} ont été présentées dans la section précédente.
+
+Utilisez \texttt{\textbackslash eqref\{\}} pour obtenir automatiquement les parenthèses.
+
+\subsection{Liens hypertextes}
+
+Le package \texttt{hyperref} permet de créer des liens cliquables :
+
+\begin{itemize}
+	\item Lien externe : \href{https://www.latex-project.org/}{Site officiel de LaTeX}
+	\item Email : \href{mailto:exemple@example.com}{exemple@example.com}
+	\item URL simple : \url{https://github.com}
+\end{itemize}
+
+\textbf{Code exemple :}
+\begin{verbatim}
+\href{https://example.com}{Texte du lien}
+\url{https://example.com}
+\end{verbatim}
+
+\subsection{Table des matières}
+
+La table des matières est générée automatiquement avec \texttt{\textbackslash tableofcontents} et inclut toutes les sections, sous-sections et sous-sous-sections.
+
+\subsection{Notes de bas de page}
+
+Vous pouvez ajouter des notes de bas de page\footnote{Ceci est un exemple de note de bas de page} avec la commande \texttt{\textbackslash footnote\{\}}.

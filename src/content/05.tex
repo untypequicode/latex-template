@@ -1,0 +1,94 @@
+\section{Gestion de la bibliographie}
+
+Cette section explique comment utiliser le système de bibliographie intégré au template.
+
+\subsection{Configuration}
+
+Le template utilise \texttt{biblatex} avec le backend \texttt{biber} pour gérer les références bibliographiques de manière moderne et flexible.
+
+La configuration se trouve dans \texttt{preamble.tex} :
+\begin{verbatim}
+\usepackage[
+  backend=biber,
+  style=numeric,
+  sorting=nty,
+  citestyle=numeric
+]{biblatex}
+\end{verbatim}
+
+\subsection{Fichier de références}
+
+Toutes les références sont stockées dans le fichier \texttt{references.bib}. Le fichier par défaut peut être personnalisé dans \texttt{env.sty} :
+
+\begin{verbatim}
+\renewcommand{\envBibFile}{mes-references.bib}
+\end{verbatim}
+
+\subsection{Types de citations}
+
+Différents formats de citation sont disponibles :
+
+\begin{description}
+	\item[Citation simple] Selon \cite{example_article}, cette approche est efficace.
+	\item[Citations multiples] Plusieurs études \cite{example_book,example_conference} le confirment.
+	\item[Citation avec page] Comme mentionné dans \cite[p.~42]{example_book}.
+	\item[Citation entre parenthèses] Cette méthode est reconnue \parencite{example_article}.
+\end{description}
+
+\subsection{Types de références supportés}
+
+Le fichier \texttt{references.bib} supporte de nombreux types d'entrées :
+
+\begin{itemize}
+	\item \textbf{Articles scientifiques} (\texttt{@article}) : \cite{example_article}
+	\item \textbf{Livres} (\texttt{@book}) : \cite{example_book}
+	\item \textbf{Chapitres de livres} (\texttt{@incollection}) : \cite{example_chapter}
+	\item \textbf{Sites web} (\texttt{@online}) : \cite{example_website}
+	\item \textbf{Conférences} (\texttt{@inproceedings}) : \cite{example_conference}
+	\item \textbf{Thèses} (\texttt{@phdthesis}) : \cite{example_thesis}
+\end{itemize}
+
+\subsection{Exemple d'entrée BibTeX}
+
+Voici un exemple de référence dans \texttt{references.bib} :
+
+\begin{verbatim}
+@article{mon_article,
+  author  = {Nom, Prénom and Autre, Auteur},
+  title   = {Titre de l'article},
+  journal = {Nom du Journal},
+  year    = {2024},
+  volume  = {42},
+  pages   = {123--145},
+  doi     = {10.1234/example.doi}
+}
+\end{verbatim}
+
+\subsection{Compilation}
+
+Pour que la bibliographie soit correctement générée, utilisez :
+
+\begin{verbatim}
+just build
+\end{verbatim}
+
+Ou manuellement :
+\begin{verbatim}
+pdflatex main.tex
+biber main
+pdflatex main.tex
+pdflatex main.tex
+\end{verbatim}
+
+\subsection{Personnalisation du style}
+
+Vous pouvez modifier le style de citation dans \texttt{preamble.tex}. Quelques options populaires :
+
+\begin{itemize}
+	\item \texttt{style=numeric} : Citations numérotées [1, 2, 3]
+	\item \texttt{style=alphabetic} : Citations alphabétiques [Doe24]
+	\item \texttt{style=authoryear} : Citations auteur-année (Doe, 2024)
+	\item \texttt{style=apa} : Style APA
+\end{itemize}
+
+La bibliographie complète apparaît automatiquement en fin de document.
