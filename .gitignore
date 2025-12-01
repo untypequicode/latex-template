@@ -6,6 +6,10 @@
 *.fdb_latexmk
 *.synctex.gz
 *.pdf
+*.bbl
+*.bcf
+*.blg
+*.run.xml
 result
 .direnv
 .tmp/

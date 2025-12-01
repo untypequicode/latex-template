@@ -12,6 +12,14 @@
 \usepackage{float}
 \usepackage{titlesec}
 
+% Bibliographie avec biblatex
+\usepackage[
+	backend=biber,
+	style=numeric,
+	sorting=nty,
+	citestyle=numeric
+]{biblatex}
+
 % Masquer les numéros de sections dans le document (mais les garder dans la table des matières)
 \titleformat{\section}[hang]{\normalfont\Large\bfseries}{}{0pt}{}
 \titleformat{\subsection}[hang]{\normalfont\large\bfseries}{}{0pt}{}
@@ -21,14 +29,23 @@
 
 % Charger la configuration du projet (env.sty)
 \IfFileExists{env.sty}{%
-  \usepackage{env}%
+	\usepackage{env}%
 }{}
 
 % Appliquer les chemins de recherche pour les images
 \makeatletter
 \@ifundefined{envGraphicPaths}{%
-  \graphicspath{{img/}}%
+	\graphicspath{{img/}}%
 }{%
-  \graphicspath\envGraphicPaths%
+	\graphicspath\envGraphicPaths%
+}
+\makeatother
+
+% Charger le fichier de bibliographie
+\makeatletter
+\@ifundefined{envBibFile}{%
+	\addbibresource{references.bib}%
+}{%
+	\addbibresource{\envBibFile}%
 }
 \makeatother

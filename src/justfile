@@ -6,6 +6,8 @@
 
 build:
     pdflatex main.tex
+    biber main
+    pdflatex main.tex
     pdflatex main.tex
 
 watch:
@@ -15,7 +17,7 @@ watch:
     done
 
 clean:
-    rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz
+    rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bbl *.bcf *.blg *.run.xml
 
 cleanall: clean
     rm -f *.pdf

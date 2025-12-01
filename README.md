@@ -52,7 +52,9 @@ just build
 ```bash
 cd src
 pdflatex main.tex
-pdflatex main.tex  # Deux fois pour les références
+biber main           # Traite la bibliographie
+pdflatex main.tex    # Intègre la bibliographie
+pdflatex main.tex    # Finalise les références
 ```
 
 ### 3. Édition du contenu
@@ -71,6 +73,42 @@ Incluez-les dans `src/main.tex` :
 \input{content/03}  % nouveau fichier
 ```
 
+### 4. Gestion de la bibliographie
+
+Le template inclut un système de bibliographie avec **biblatex** et **biber**.
+
+**Ajouter des références** :
+
+Modifiez `src/references.bib` et ajoutez vos sources :
+
+```bibtex
+@article{mon_article,
+  author  = {Nom, Prénom},
+  title   = {Titre de l'article},
+  journal = {Nom du Journal},
+  year    = {2024},
+  volume  = {42},
+  pages   = {123--145}
+}
+```
+
+**Citer dans le document** :
+
+```latex
+Selon \cite{mon_article}, cette approche est efficace.
+Plusieurs études \cite{ref1,ref2,ref3} montrent que...
+```
+
+**Personnaliser le fichier de bibliographie** :
+
+Dans `src/env.sty`, vous pouvez spécifier un autre fichier :
+
+```latex
+\renewcommand{\envBibFile}{mes-references.bib}
+```
+
+**Types de références supportés** : article, book, incollection, online, inproceedings, phdthesis, et plus. Voir `src/references.bib` pour des exemples.
+
 ## 📁 Structure
 
 ```
@@ -80,6 +118,7 @@ src/
 ├── main.tex             # Document principal
 ├── preamble.tex         # Packages et configuration LaTeX
 ├── titlepage.tex        # Page de titre
+├── references.bib       # Fichier de bibliographie
 ├── justfile             # Commandes de build
 └── content/             # Contenu du document
     ├── 01.tex
@@ -154,7 +193,7 @@ Le workflow détecte automatiquement tous les fichiers `latex.build` dans `src/`
 
 - Les numéros de sections n'apparaissent pas dans le document mais restent dans la table des matières
 - Le document est configuré pour le français par défaut
-- Deux compilations sont nécessaires pour résoudre les références croisées
+- Plusieurs compilations sont nécessaires pour résoudre les références croisées et la bibliographie (automatique avec `just build`)
 
 ## 🛠️ Dépendances
 
