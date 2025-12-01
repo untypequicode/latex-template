@@ -12,6 +12,9 @@
 \usepackage{float}
 \usepackage{titlesec}
 
+% Package pour Times New Roman
+\usepackage{mathptmx}
+
 % Bibliographie avec biblatex
 \usepackage[
 	backend=biber,
@@ -47,5 +50,30 @@
 	\addbibresource{references.bib}%
 }{%
 	\addbibresource{\envBibFile}%
+}
+\makeatother
+
+% Configuration de la police
+\makeatletter
+\@ifundefined{envFontFamily}{}{%
+	\def\tmp{times}%
+	\ifx\envFontFamily\tmp
+		\renewcommand{\rmdefault}{ptm}% Times New Roman pour le texte
+	\fi
+}
+\makeatother
+
+% Configuration de la taille de police
+\makeatletter
+\@ifundefined{envFontSize}{}{%
+	\renewcommand{\normalsize}{%
+		\@setfontsize\normalsize{\envFontSize}{\envFontSize pt}%
+		\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+		\abovedisplayshortskip \z@ \@plus3\p@
+		\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+		\belowdisplayskip \abovedisplayskip
+		\let\@listi\@listI
+	}
+	\normalsize
 }
 \makeatother

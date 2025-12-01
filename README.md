@@ -41,6 +41,10 @@ Modifiez `src/env.sty` avec vos informations :
 \renewcommand{\envTeam}{Équipe Alpha}
 \renewcommand{\envRemise}{18 novembre 2025}
 
+% Configuration de la police
+\renewcommand{\envFontFamily}{times}  % "default" ou "times"
+\renewcommand{\envFontSize}{12}       % 10, 11, 12, etc.
+
 \renewcommand{\envTeamEntries}{%
   201234 & Alice Exemple \\%
   201235 & Bob Exemple   \\%
@@ -159,6 +163,26 @@ just cleanall  # Tout nettoyer (y compris le PDF)
 ```
 
 ## 🎨 Personnalisation
+
+### Police et typographie
+
+Le template permet de personnaliser la police et sa taille dans `src/env.sty` :
+
+```latex
+% Police par défaut (Computer Modern)
+\renewcommand{\envFontFamily}{default}
+
+% Ou Times New Roman
+\renewcommand{\envFontFamily}{times}
+
+% Taille de police (10pt, 11pt, 12pt, etc.)
+\renewcommand{\envFontSize}{12}
+```
+
+**Options disponibles :**
+
+- `envFontFamily` : `default` (Computer Modern) ou `times` (Times New Roman)
+- `envFontSize` : toute valeur numérique (recommandé : 10, 11, 12)
 
 ### Logo
 
