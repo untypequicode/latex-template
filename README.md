@@ -158,6 +158,7 @@ src/
 ```bash
 just build     # Compiler le PDF
 just watch     # Recompiler automatiquement à chaque modification
+just format    # Formater tous les fichiers .tex avec latexindent
 just clean     # Nettoyer les fichiers auxiliaires
 just cleanall  # Tout nettoyer (y compris le PDF)
 ```
@@ -243,6 +244,56 @@ Le workflow détecte automatiquement tous les fichiers `latex.build` dans `src/`
 - Le document est configuré pour le français par défaut
 - Plusieurs compilations sont nécessaires pour résoudre les références croisées et la bibliographie (automatique avec `just build`)
 
+## 🎯 Formatage du code LaTeX
+
+Le projet inclut une configuration **latexindent** pour standardiser le formatage de tous les fichiers `.tex`.
+
+### Configuration
+
+Le fichier `src/.latexindent.yaml` définit les règles de formatage :
+
+- Indentation : 4 espaces
+- Largeur de ligne : 80 colonnes avec retour automatique
+- Suppression des espaces en fin de ligne
+- Indentation automatique des listes (itemize, enumerate, description)
+
+### Utiliser latexindent
+
+**Formater tous les fichiers** :
+
+```bash
+cd src
+just format
+```
+
+Ou manuellement :
+
+```bash
+cd src
+find . -name "*.tex" -exec latexindent -m -l -s -o={} {} \;
+```
+
+**Formater un fichier spécifique** :
+
+```bash
+cd src
+latexindent -m -l -s -o=main.tex main.tex
+```
+
+**Options utilisées** :
+
+- `-m` : Modifie les sauts de ligne selon la configuration
+- `-l` : Utilise le fichier de configuration local (`.latexindent.yaml`)
+- `-s` : Mode silencieux
+- `-o={}` : Écrase le fichier d'origine
+
+**Installation de latexindent** :
+
+- **Avec Nix** : déjà inclus dans le `nix-shell`
+- **Debian/Ubuntu** : `sudo apt install latexindent`
+- **macOS** : `brew install latexindent`
+- **Autres** : généralement inclus dans les distributions LaTeX complètes
+
 ## 🛠️ Dépendances
 
 - **Avec Nix** : `nix-shell` installe tout automatiquement
@@ -250,3 +301,4 @@ Le workflow détecte automatiquement tous les fichiers `latex.build` dans `src/`
   - LaTeX (distribution complète recommandée)
   - [just](https://github.com/casey/just) (gestionnaire de commandes)
   - `inotifywait` (optionnel, pour `just watch`)
+  - `latexindent` (optionnel, pour le formatage du code)

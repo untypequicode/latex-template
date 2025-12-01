@@ -1,6 +1,7 @@
 # justfile - tâches pour construire le projet LaTeX
 # Cible 'build' : compile le fichier main.tex deux fois (utile pour résoudre les références croisées)
 # Cible 'watch' : surveille les fichiers .tex et relance 'just build' à chaque modification
+# Cible 'format' : formate tous les fichiers .tex avec latexindent
 # Cible 'clean' : supprime les fichiers auxiliaires générés par LaTeX
 # Cible 'cleanall' : effectue 'clean' puis supprime le(s) PDF généré(s)
 
@@ -15,6 +16,9 @@ watch:
         inotifywait -qe modify *.tex content/*.tex 2>/dev/null; \
         just build; \
     done
+
+format:
+    find . -name "*.tex" -exec latexindent -m -l -s -o={} {} \;
 
 clean:
     rm -f *.aux *.log *.out *.toc *.fls *.fdb_latexmk *.synctex.gz *.bbl *.bcf *.blg *.run.xml

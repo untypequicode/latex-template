@@ -17,10 +17,10 @@
 
 % Bibliographie avec biblatex
 \usepackage[
-	backend=biber,
-	style=numeric,
-	sorting=nty,
-	citestyle=numeric
+    backend=biber,
+    style=numeric,
+    sorting=nty,
+    citestyle=numeric
 ]{biblatex}
 
 % Masquer les numéros de sections dans le document (mais les garder dans la table des matières)
@@ -32,48 +32,48 @@
 
 % Charger la configuration du projet (env.sty)
 \IfFileExists{env.sty}{%
-	\usepackage{env}%
+    \usepackage{env}%
 }{}
 
 % Appliquer les chemins de recherche pour les images
 \makeatletter
 \@ifundefined{envGraphicPaths}{%
-	\graphicspath{{img/}}%
+    \graphicspath{{img/}}%
 }{%
-	\graphicspath\envGraphicPaths%
+    \graphicspath\envGraphicPaths%
 }
 \makeatother
 
 % Charger le fichier de bibliographie
 \makeatletter
 \@ifundefined{envBibFile}{%
-	\addbibresource{references.bib}%
+    \addbibresource{references.bib}%
 }{%
-	\addbibresource{\envBibFile}%
+    \addbibresource{\envBibFile}%
 }
 \makeatother
 
 % Configuration de la police
 \makeatletter
 \@ifundefined{envFontFamily}{}{%
-	\def\tmp{times}%
-	\ifx\envFontFamily\tmp
-		\renewcommand{\rmdefault}{ptm}% Times New Roman pour le texte
-	\fi
+    \def\tmp{times}%
+    \ifx\envFontFamily\tmp
+        \renewcommand{\rmdefault}{ptm}% Times New Roman pour le texte
+    \fi
 }
 \makeatother
 
 % Configuration de la taille de police
 \makeatletter
 \@ifundefined{envFontSize}{}{%
-	\renewcommand{\normalsize}{%
-		\@setfontsize\normalsize{\envFontSize}{\envFontSize pt}%
-		\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-		\abovedisplayshortskip \z@ \@plus3\p@
-		\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-		\belowdisplayskip \abovedisplayskip
-		\let\@listi\@listI
-	}
-	\normalsize
+    \renewcommand{\normalsize}{%
+        \@setfontsize\normalsize{\envFontSize}{\envFontSize pt}%
+        \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+        \abovedisplayshortskip \z@ \@plus3\p@
+        \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+        \belowdisplayskip \abovedisplayskip
+        \let\@listi\@listI
+    }
+    \normalsize
 }
 \makeatother

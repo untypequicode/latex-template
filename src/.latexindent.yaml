@@ -1,0 +1,15 @@
+defaultIndent: "    "
+
+modifyLineBreaks:
+    textWrapOptions:
+        columns: 80
+        when: after
+
+removeTrailingWhitespace:
+    beforeProcessing: 1
+    afterProcessing: 1
+
+indentAfterItems:
+    itemize: 1
+    enumerate: 1
+    description: 1
